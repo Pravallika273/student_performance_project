@@ -1,217 +1,179 @@
-Great — I’ll take you **step-by-step through Step (v)** *and* I will also **write your full README.md** exactly as it should appear on GitHub.
+# 🎓 **Student Performance Insights Dashboard**
 
-You can simply copy–paste it later.
+# **A full-stack data analytics project aimed at predicting student academic success and reducing failure rates through actionable, visualized insights.**
 
----
+# **Project Overview**
 
-# ✅ STEP V — Documentation & GitHub (Complete Guidance)
+This project analyzes a **Student Performance Dataset (500 students, 12 features)** and builds a complete **end-to-end data analytics workflow** using Python, Scikit-Learn, and leading BI tools.
 
-I will divide it into 3 parts:
+**Key Deliverables:**
 
----
+  * **Exploratory Data Analysis (EDA)** and Feature Engineering
+  * **Machine Learning Model** (Logistic Regression for Pass/Fail Prediction)
+  * Interactive **Streamlit Dashboard** for live data exploration
+  * Professional **Power BI Dashboard** for summary reporting
+  * Complete Documentation & GitHub Deployment
 
-# **PART A — Create README.md (your full project documentation)**
+-----
 
-📌 *Copy–paste everything below into a new file named `README.md`.*
+# **Dataset Summary**
 
----
+| Column | Description | Data Range/Type |
+| Student_ID | Unique student identifier | Identifier |
+| Gender | Male/Female | Categorical |
+| Age | Student age | 18–24 |
+| Stream | Mech, ECE, EEE, CSE, Civil | Categorical |
+| Attendance | Percentage attendance | 50–100% |
+| Study_Hours | Daily study hours | Numerical |
+| Internal_Marks | Marks from internal assessments | 0–30 |
+| Final_Marks | Primary performance metric | 0–100 |
+| Assignments_Submitted | Number of assignments submitted | 0–10 |
+| Parental_Education | Low / Medium / High | Categorical |
+| Internet_Access | Yes / No | Categorical |
+| CGPA | Cumulative Grade Point Average | 0–10 |
+| Pass | Derived column (1 if Final_Marks ≥ 40) | Binary (Target) |
 
-# 📘 **Student Performance Insights Dashboard — README.md**
+-----
 
-## 📌 **Project Overview**
+# **1️⃣ Exploratory Data Analysis (EDA)**
 
-This project analyzes a **Student Performance Dataset (500 students, 12 features)** and builds a complete end-to-end data analysis workflow including:
+📁 Notebook: `EDA_student_performance.ipynb`
 
-* 🔍 **Exploratory Data Analysis (EDA)**
-* 🧠 **Feature Engineering + ML Model (Logistic Regression)**
-* 📊 **Interactive Streamlit Dashboard**
-* 📈 **Power BI Dashboard**
-* 📄 **Final Documentation + GitHub Deployment**
+# **Key Insights**
 
-The goal is to understand patterns behind student performance, identify at-risk students, and visualize key academic indicators.
+1.  **Overall Pass Rate:** 59.6% of students passed.
+2.  **Attendance vs Final Marks:** Low attendance clusters show poor marks, though the overall linear correlation is weak (r=0.09).
+3.  **Stream-wise Performance:** Highest median performance in **ECE & Mech** streams; **Civil** shows the lowest median performance.
+4.  **Internal Marks** (r=0.08) and **Study Hours** (r=0.15) show mild positive correlations with final performance.
 
----
+-----
 
-# 📂 **Dataset Summary**
+# **2️⃣ Feature Engineering & Model**
 
-| Column                | Description                            |
-| --------------------- | -------------------------------------- |
-| Student_ID            | Unique student identifier              |
-| Gender                | Male/Female                            |
-| Age                   | 18–24                                  |
-| Stream                | Mech, ECE, EEE, CSE, Civil             |
-| Attendance            | 50–100%                                |
-| Study_Hours           | Daily study hours                      |
-| Internal_Marks        | 0–30                                   |
-| Final_Marks           | 0–100                                  |
-| Assignments_Submitted | 0–10                                   |
-| Parental_Education    | Low / Medium / High                    |
-| Internet_Access       | Yes / No                               |
-| CGPA                  | 0–10                                   |
-| Pass                  | Derived column (1 if Final_Marks ≥ 40) |
+📁 Notebook: `model_student_performance.ipynb`
 
----
+# **Feature Engineering**
 
-# 🧪 **1. Exploratory Data Analysis (EDA)**
+  * Created the binary target variable `Pass`.
+  * Categorized continuous features (e.g., created Attendance and Study Hour bands).
+  * Standardized continuous features using `StandardScaler`.
+  * **Exported cleaned dataset:** `student_performance_features.csv`
 
-Notebook: **EDA_student_performance.ipynb**
+-----
 
-### ✔ Steps performed
+# **Logistic Regression Model Results**
 
-* Loaded dataset using pandas
-* Checked shape, first rows, missing values
-* Summary statistics (`df.describe()`)
-* Distribution of final marks (Histogram)
-* Relationship: Attendance vs Final Marks (Scatter Plot)
-* Final marks by Stream (Boxplot)
-* Pass rate calculation
-* Correlation analysis
+The model was trained to predict the `Pass` status.
 
-### 📌 Key Insights from EDA
+Metric  | Value
+Accuracy| 0.57
+ROC AUC | 0.538
 
-1. **Pass Rate:** 59.6% of students passed.
-2. **Attendance vs Final Marks:** Correlation is weak (`0.09`), but low attendance clusters often show low marks.
-3. **Stream-wise performance:**
+# **Model Interpretation**
 
-   * Highest median marks → **ECE & Mech**
-   * Lowest → **Civil**
-4. **Assignments_Submitted shows a slight negative correlation**, suggesting assignment quantity alone doesn’t guarantee performance.
-5. **Internal Marks have mild positive correlation**, but not very strong (`0.08`).
+  * The model achieves high **Recall (0.95)** for the 'Pass' class, indicating it is strong at identifying students who **will pass**.
+  * The low overall accuracy and AUC suggest the model is weak at predicting **failures** (the At-Risk group). This indicates a need for more advanced features or different algorithms to improve sensitivity for low-performing students.
 
----
-
-# 🧠 **2. Feature Engineering & Model**
-
-Notebook: **model_student_performance.ipynb**
-
-### ✔ Feature Engineering
-
-* Added **Pass** column
-* Attendance bands: Low, Moderate, High, Very High
-* Study hour buckets: Low, Medium, High
-* Standardized features using `StandardScaler`
-* Exported dataset → `student_performance_features.csv`
-
-### ✔ Logistic Regression Model
-
-| Metric   | Value     |
-| -------- | --------- |
-| Accuracy | **0.57**  |
-| ROC AUC  | **0.538** |
-
-### 📌 Short Interpretation
-
-* Model predicts **pass students well (Recall = 0.95)** but fails on failing students.
-* Important predictors:
+# **Top Predictors**
 
   * Attendance
   * Internal Marks
   * Study Hours
-* Model is weak due to:
 
-  * Class imbalance
-  * Weak correlations
-  * No strong predictor dominating
+-----
 
----
+# **3️⃣ Streamlit Dashboard**
 
-# 💻 **3. Streamlit Dashboard**
+📁 File: `app_streamlit.py`
 
-File: **streamlit.py**
+# **Dashboard Features**
 
-### ✔ Features
+  * KPI Cards (Total Students, Pass Rate)
+  * Final Marks Distribution
+  * Stream-based filtering (Slicer)
+  * **At-Risk Students Table** (Identifies low-scoring individuals)
+  * Fully dynamic and interactive UI.
 
-* KPI Cards (Total Students, Pass Rate)
-* Final Marks Distribution
-* Stream Filter
-* At-Risk Students Table
-* Real-time interactive analysis
-
-### ▶ Run the app
+# **Run the App Locally**
 
 ```bash
 streamlit run streamlit.py
 ```
 
----
+-----
 
-# 📈 **4. Power BI Dashboard**
+# **4️⃣ Power BI Dashboard**
 
-Includes:
+**Visuals Included:**
 
-* KPI Cards
-* Bar chart (Average Final Marks by Stream)
-* Line chart (Average Final Marks by Attendance / Age)
-* At-Risk Students Table (Top 20 failing students)
-* Slicers: Gender, Stream, Parental Education
+  * KPI Cards (Student Count, Pass Rate)
+  * **Average Final Marks by Stream** (Bar Chart)
+  * **Final Marks by Attendance** (Line Chart)
+  * **At-Risk Students Table** (Dynamic **Bottom 20** students ranked by Average Final Marks)
+  * Slicers for Gender, Stream, and Parental Education.
 
----
+-----
 
-# 🚀 **5. How to Run the Project Locally**
+# **5️⃣ How to Run This Project Locally**
 
-### **1. Clone the repository**
+# **1. Clone the repository**
 
 ```bash
-git clone https://github.com/yourusername/student_performance_project.git
+git clone https://github.com/pravallika273/student_performance_project.git
 cd student_performance_project
 ```
 
-### **2. Install dependencies**
+# **2. Install dependencies**
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### **3. Run JupyterLab**
+# **3. Run JupyterLab**
 
 ```bash
 jupyter lab
 ```
 
-### **4. Launch Streamlit**
+# **4. Launch the Streamlit Dashboard**
 
 ```bash
-streamlit run streamlit.py
+streamlit run app_streamlit.py
 ```
 
-### **5. Open Power BI (.pbix) file**
+# **5. Open Power BI File**
 
-Just double-click the file and open in Power BI Desktop.
+Open `visuals.pbix` using Power BI Desktop.
 
----
+-----
 
-# 🖼 **Project image files**
+# **Project Images**
 
-![Histogram](images/histogram.png)
-![Scatter Plot](images/scatter.png)
-![Boxplot](images/boxplot.png)
-![Streamlit Dashboard](http://192.168.0.106:8501)
-![Power BI Dashboard](powerbi_dashboard.pdf)
+![Histogram](images\histogam.png) 
+![Scatter Plot](images/scatter.png) 
+![Boxplot](images/boxplot.png) 
+![Streamlit Dashboard](http://192.168.0.106:8501) 
+![Power BI Dashboard](images/visuals.png)
 
----
+-----
 
 # **Tech Stack**
 
-* Python (Pandas, NumPy, Matplotlib, Scikit-Learn)
-* Jupyter Notebook
-* Streamlit
-* Power BI
-* Git & GitHub
+  * Python (Pandas, NumPy, Matplotlib, Scikit-Learn)
+  * Jupyter Notebook
+  * Streamlit
+  * Power BI
+  * Git & GitHub
 
----
+-----
 
 # **Conclusion**
 
-This project provides a complete end-to-end analytics pipeline for student academic performance:
+This project successfully demonstrates a full data analytics workflow—from **Data Cleaning** and **EDA** to **Machine Learning** and **Interactive Dashboards**. The result is a robust system that provides critical insights into student performance and facilitates data-driven decisions for academic intervention.
 
-* Clean dataset → EDA → Feature engineering → ML model → Dashboards
-* Provides meaningful insights such as pass rates, stream-wise trends, and at-risk student identification.
+-----
 
----
-
-# **Author**
+# Author
 
 **Pravallika**
 MSc Data Science
-
----
