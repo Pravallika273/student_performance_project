@@ -97,7 +97,7 @@ ROC AUC | 0.538
 # **Run the App Locally**
 
 ```bash
-streamlit run streamlit.py
+streamlit run app_streamlit.py
 ```
 
 -----
